@@ -5,13 +5,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.3.RELEASE</version>
+        <version>2.3.1.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>mk.finki.ukim.emt</groupId>
-    <artifactId>supplements-catalog</artifactId>
+    <groupId>mk.ukim.finki.emt.music-shop</groupId>
+    <artifactId>clients</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>supplements-catalog</name>
+    <name>clients</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>

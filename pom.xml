@@ -22,6 +22,7 @@
         <module>order-management</module>
         <module>supplements-catalog</module>
         <module>shared-kernel</module>
+        <module>clients</module>
     </modules>
 
     <dependencies>
