@@ -6,6 +6,7 @@ import mk.ukim.finki.emt.sharedkernel.domain.measurement.Quantity;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -19,13 +20,12 @@ public class Type extends AbstractEntity<TypeId> {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Supplement> supplements;
 
-    private Type() {
+    public Type() {
     }
 
     public Type(TypeId typeId, String name) {
         super(typeId);
         this.name = name;
-        this.supplements = new HashSet<>();
     }
 
     @Override
@@ -33,7 +33,7 @@ public class Type extends AbstractEntity<TypeId> {
         return id;
     }
 
-    public Supplement add(Supplement supplement) {
+    public Supplement addSupplement(Supplement supplement) {
         supplements.add(supplement);
         return supplement;
     }

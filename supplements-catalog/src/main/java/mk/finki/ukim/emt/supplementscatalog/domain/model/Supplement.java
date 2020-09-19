@@ -14,7 +14,7 @@ import java.util.Set;
 
 @Getter
 @Entity
-@Table(name = "products")
+@Table(name = "supplements")
 @Where(clause = "deleted=false")
 public class Supplement extends AbstractEntity<SupplementId> {
 
@@ -87,5 +87,6 @@ public class Supplement extends AbstractEntity<SupplementId> {
     public void increaseQuantity(Quantity increaseValue) {
         this.quantity = this.quantity.add(increaseValue);
     }
+
 
 }
