@@ -1,4 +1,4 @@
-package mk.ukim.finki.emt.musicshop.clients;
+package mk.ukim.finki.emt.mysupplementshop.clients;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

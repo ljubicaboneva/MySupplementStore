@@ -1,7 +1,7 @@
-package mk.ukim.finki.emt.musicshop.clients.domain.model;
+package mk.ukim.finki.emt.mysupplementshop.clients.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import mk.ukim.finki.emt.musicshop.sharedkernel.domain.base.DomainObjectId;
+import mk.ukim.finki.emt.sharedkernel.domain.base.DomainObjectId;
 
 import javax.persistence.Embeddable;
 

@@ -37,24 +37,22 @@ class DataGenerator {
             typeRepository.saveAll(types);
 
         }
-
-        if (supplementRepository.findAll().size() == 0) {
             if (supplementRepository.findAll().size() == 0) {
                 var supplements = new ArrayList<Supplement>();
                 supplements.add(new Supplement(new SupplementId("1"), Name.valueOf("Meal"), Brand.ANIMAL,
-                        new Money(Currency.USD, 55), 2300, new Quantity(10),typeRepository.findById(new TypeId("1")).get()));
+                        new Money(Currency.USD, 55), 2300, new Quantity(10)));
                 supplements.add(new Supplement(new SupplementId("2"), Name.valueOf("Creatine"), Brand.A1PLUS,
-                        new Money(Currency.USD, 13), 318, new Quantity(15), typeRepository.findById(new TypeId("2")).get()));
+                        new Money(Currency.USD, 13), 318, new Quantity(15)));
                 supplements.add(new Supplement(new SupplementId("3"), Name.valueOf("C4 Ripped"), Brand.CELLUCOR,
-                        new Money(Currency.USD, 40), 180, new Quantity(10), typeRepository.findById(new TypeId("2")).get()));
+                        new Money(Currency.USD, 40), 180, new Quantity(10)));
                 supplements.add(new Supplement(new SupplementId("4"), Name.valueOf("Fish Oil"), Brand.CELLUCOR,
-                        new Money(Currency.USD, 11), 200, new Quantity(12), typeRepository.findById(new TypeId("3")).get()));
+                        new Money(Currency.USD, 11), 200, new Quantity(12)));
                 supplements.add(new Supplement(new SupplementId("5"), Name.valueOf("Cholesterol Pro"), Brand.NOW,
-                        new Money(Currency.USD, 28), 180, new Quantity(20), typeRepository.findById(new TypeId("4")).get()));
+                        new Money(Currency.USD, 28), 180, new Quantity(20)));
                 supplements.add(new Supplement(new SupplementId("6"), Name.valueOf("Vitamin B-12"), Brand.SOLARAY,
-                        new Money(Currency.USD, 9), 180, new Quantity(25), typeRepository.findById(new TypeId("5")).get()));
+                        new Money(Currency.USD, 9), 180, new Quantity(25)));
                 supplementRepository.saveAll(supplements);
-            }
+
 
             add("1","1");
             add("2","2");
@@ -62,10 +60,10 @@ class DataGenerator {
             add("4","3");
             add("5","4");
             add("6","5");
-
+            }
         }
 
-    }
+
     private void add(String supplementId, String typeId) {
         Supplement supplement = supplementRepository.findById(new SupplementId(supplementId)).get();
         Type type = typeRepository.findById(new TypeId(typeId)).get();

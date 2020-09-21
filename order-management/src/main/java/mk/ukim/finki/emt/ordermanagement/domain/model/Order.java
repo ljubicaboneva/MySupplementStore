@@ -38,6 +38,8 @@ public class Order extends AbstractEntity<OrderId> {
     @Column(name = "ordered_on", nullable = false)
     private Instant orderedOn;
 
+    @Column(name = "clientId", nullable = false)
+    private ClientId clientId;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<OrderItem> items;
@@ -45,13 +47,14 @@ public class Order extends AbstractEntity<OrderId> {
     public Order() {
     }
 
-    public Order(OrderId orderId, Currency currency, RecipientAddress billingAddress, OrderState orderState) {
+    public Order(OrderId orderId, Currency currency, RecipientAddress billingAddress, OrderState orderState, ClientId clientId) {
         super(orderId);
         this.items = new HashSet<>();
         this.currency = currency;
         this.orderedOn = Instant.now();
         this.billingAddress = billingAddress;
         this.orderState = orderState;
+        this.clientId = clientId;
 
     }
 
@@ -75,6 +78,8 @@ public class Order extends AbstractEntity<OrderId> {
     public void setOrderState(OrderState orderState) {
         this.orderState = orderState;
     }
+
+    public void setClientId(ClientId clientId){ this.clientId = clientId; }
 
     public Money total() {
         return items.stream().map(OrderItem::subtotal).reduce(new Money(currency, 0), Money::add);

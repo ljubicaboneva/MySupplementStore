@@ -1,10 +1,11 @@
-package mk.ukim.finki.emt.musicshop.clients.domain.model;
+package mk.ukim.finki.emt.mysupplementshop.clients.domain.model;
 
 import lombok.Getter;
 import lombok.NonNull;
-import mk.ukim.finki.emt.musicshop.sharedkernel.domain.base.AbstractEntity;
-import mk.ukim.finki.emt.musicshop.sharedkernel.domain.geo.Address;
-import mk.ukim.finki.emt.musicshop.sharedkernel.domain.info.Name;
+import mk.ukim.finki.emt.sharedkernel.domain.base.AbstractEntity;
+import mk.ukim.finki.emt.sharedkernel.domain.geo.Address;
+import mk.ukim.finki.emt.sharedkernel.domain.identity.Name;
+
 
 import javax.persistence.*;
 
@@ -32,7 +33,8 @@ public class Client extends AbstractEntity<ClientId> {
 
     private String email;
 
-    public Client(@NonNull Name name, @NonNull Address billingAddress, @NonNull String email) {
+    public Client(@NonNull ClientId clientId,@NonNull Name name, @NonNull Address billingAddress, @NonNull String email) {
+        super(clientId);
         this.name = name;
         this.billingAddress = billingAddress;
         this.email = email;
@@ -50,6 +52,11 @@ public class Client extends AbstractEntity<ClientId> {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public ClientId id() {
+        return id;
     }
 }
 

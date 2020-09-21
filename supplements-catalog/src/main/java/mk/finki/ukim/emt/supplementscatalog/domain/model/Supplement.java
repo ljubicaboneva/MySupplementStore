@@ -45,14 +45,14 @@ public class Supplement extends AbstractEntity<SupplementId> {
     public Supplement() {
     }
 
-    public Supplement(SupplementId supplementId, Name name, Brand brand, Money price, float grams, Quantity quantity, Type type) {
+    public Supplement(SupplementId supplementId, Name name, Brand brand, Money price, float grams, Quantity quantity) {
         super(supplementId);
         this.name = name;
         this.brand = brand;
         this.price = price;
         this.grams = grams;
-        this.type = type;
         this.quantity = quantity;
+
     }
 
     @Override
@@ -88,5 +88,17 @@ public class Supplement extends AbstractEntity<SupplementId> {
         this.quantity = this.quantity.add(increaseValue);
     }
 
-
+    @Override
+    public String toString() {
+        return "Supplement{" +
+                "version=" + version +
+                ", name=" + name +
+                ", quantity=" + quantity +
+                ", brand=" + brand +
+                ", price=" + price +
+                ", grams=" + grams +
+                ", type=" + type.getName() +
+                ", deleted=" + deleted +
+                '}';
+    }
 }
