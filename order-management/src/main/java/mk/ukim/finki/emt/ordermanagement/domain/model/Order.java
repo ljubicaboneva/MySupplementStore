@@ -20,6 +20,7 @@ public class Order extends AbstractEntity<OrderId> {
     @Version
     private Long version;
 
+    @Column(name = "currency", nullable = false)
     @Enumerated(value = EnumType.STRING)
     private Currency currency;
 
@@ -38,7 +39,7 @@ public class Order extends AbstractEntity<OrderId> {
     @Column(name = "ordered_on", nullable = false)
     private Instant orderedOn;
 
-    @Column(name = "clientId", nullable = false)
+    @AttributeOverrides({@AttributeOverride(name = "id", column = @Column(name = "client_id", nullable = false))})
     private ClientId clientId;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)

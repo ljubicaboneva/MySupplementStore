@@ -13,8 +13,8 @@ public class ClientId extends DomainObjectId {
     }
 
     @JsonCreator
-    public ClientId(String id) {
-        super(id);
+    public ClientId(String clientId) {
+        super(clientId);
     }
 
 }

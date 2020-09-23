@@ -5,7 +5,7 @@ import mk.ukim.finki.emt.ordermanagement.domain.model.*;
 import mk.ukim.finki.emt.ordermanagement.domain.repository.OrderItemRepository;
 import mk.ukim.finki.emt.ordermanagement.domain.repository.OrderRepository;
 import mk.ukim.finki.emt.ordermanagement.domain.requests.OrderCreateRequest;
-import mk.ukim.finki.emt.ordermanagement.integration.OrderItemAdded;
+import mk.ukim.finki.emt.ordermanagement.domain.event.OrderItemAdded;
 import mk.ukim.finki.emt.sharedkernel.domain.financial.Currency;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;

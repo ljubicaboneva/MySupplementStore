@@ -1,4 +1,4 @@
-package mk.ukim.finki.emt.ordermanagement.integration;
+package mk.ukim.finki.emt.ordermanagement.domain.event;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.NonNull;

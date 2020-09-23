@@ -13,7 +13,7 @@ public class Quantity implements ValueObject {
 
     private final int value;
 
-    public Quantity(@NonNull int value) {
+    public Quantity(int value) {
         checkNegative(value);
         this.value = value;
     }
