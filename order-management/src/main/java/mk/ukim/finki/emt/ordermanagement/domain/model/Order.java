@@ -5,11 +5,14 @@ import mk.ukim.finki.emt.sharedkernel.domain.base.AbstractEntity;
 import mk.ukim.finki.emt.sharedkernel.domain.financial.Currency;
 import mk.ukim.finki.emt.sharedkernel.domain.financial.Money;
 import mk.ukim.finki.emt.sharedkernel.domain.geo.RecipientAddress;
+import mk.ukim.finki.emt.sharedkernel.domain.measurement.Quantity;
+import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -45,9 +48,6 @@ public class Order extends AbstractEntity<OrderId> {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<OrderItem> items;
 
-    public Order() {
-    }
-
     public Order(OrderId orderId, Currency currency, RecipientAddress billingAddress, OrderState orderState, ClientId clientId) {
         super(orderId);
         this.items = new HashSet<>();
@@ -58,6 +58,8 @@ public class Order extends AbstractEntity<OrderId> {
         this.clientId = clientId;
 
     }
+
+    public Order (){}
 
     @Override
     public OrderId id() {
@@ -82,8 +84,9 @@ public class Order extends AbstractEntity<OrderId> {
 
     public void setClientId(ClientId clientId){ this.clientId = clientId; }
 
-    public Money total() {
-        return items.stream().map(OrderItem::subtotal).reduce(new Money(currency, 0), Money::add);
+    public int total() {
+        Money money = items.stream().map(OrderItem::subtotal).reduce(new Money(currency, 0), Money::add);
+        return money.getAmount();
     }
 
     public OrderItem addOrderItem(OrderItem orderItem) {
@@ -95,6 +98,15 @@ public class Order extends AbstractEntity<OrderId> {
         items.remove(orderItem);
         return orderItem;
     }
+
+    public OrderItem addItem(@NonNull Supplement supplement, int qty) {
+        Objects.requireNonNull(supplement, "supplement must not be null");
+        var item = new OrderItem(supplement.getId(), supplement.getPrice(), Quantity.valueOf(qty));
+        item.setQuantity(Quantity.valueOf(qty));
+        items.add(item);
+        return item;
+    }
+
 
     public void addOrderItems(List<OrderItem> orderItems) {
         items.addAll(orderItems);

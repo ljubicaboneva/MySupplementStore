@@ -67,5 +67,15 @@ public class OrderItem extends AbstractEntity<OrderItemId> {
     public Money subtotal() {
         return price.multiply(quantity.getValue());
     }
+
+    public int getQty(){
+        return quantity.getValue();
+    }
+
+    public int getM(){
+        return price.getAmount();
+    }
+
+    public int sub(){return subtotal().getAmount();}
 }
 

@@ -9,7 +9,6 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.util.Objects;
 
-@Getter
 @Embeddable
 public class Name implements ValueObject {
 
@@ -26,6 +25,10 @@ public class Name implements ValueObject {
 
     public static Name valueOf(String name) {
         return new Name(name);
+    }
+
+    public String getName(){
+        return name;
     }
 
     @Override

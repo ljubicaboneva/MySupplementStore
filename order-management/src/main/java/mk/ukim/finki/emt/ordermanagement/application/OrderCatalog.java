@@ -1,15 +1,19 @@
 package mk.ukim.finki.emt.ordermanagement.application;
 
-import lombok.NonNull;
+
+
+import mk.ukim.finki.emt.ordermanagement.domain.event.OrderCreated;
+import mk.ukim.finki.emt.ordermanagement.domain.event.OrderItemAdded;
 import mk.ukim.finki.emt.ordermanagement.domain.model.*;
 import mk.ukim.finki.emt.ordermanagement.domain.repository.OrderItemRepository;
 import mk.ukim.finki.emt.ordermanagement.domain.repository.OrderRepository;
-import mk.ukim.finki.emt.ordermanagement.domain.requests.OrderCreateRequest;
-import mk.ukim.finki.emt.ordermanagement.domain.event.OrderItemAdded;
+import mk.ukim.finki.emt.ordermanagement.port.requests.OrderCreateRequest;
 import mk.ukim.finki.emt.sharedkernel.domain.financial.Currency;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import java.time.Instant;
 import java.util.List;
@@ -22,20 +26,15 @@ import java.util.stream.Collectors;
 public class OrderCatalog {
 
     private final OrderRepository orderRepository;
+
     private final OrderItemRepository orderItemRepository;
+
     private final ApplicationEventPublisher applicationEventPublisher;
 
-
-    public OrderCatalog(OrderRepository orderRepository,
-                        OrderItemRepository orderItemRepository, ApplicationEventPublisher applicationEventPublisher) {
+    public OrderCatalog(OrderRepository orderRepository, OrderItemRepository orderItemRepository, ApplicationEventPublisher applicationEventPublisher) {
         this.orderRepository = orderRepository;
         this.orderItemRepository = orderItemRepository;
         this.applicationEventPublisher = applicationEventPublisher;
-
-    }
-
-    public List<Order> findAll() {
-        return orderRepository.findAll();
     }
 
     @NonNull
@@ -43,6 +42,7 @@ public class OrderCatalog {
         Objects.requireNonNull(orderId, "orderId must not be null");
         return orderRepository.findById(orderId);
     }
+
 
     public Order createOrder(OrderCreateRequest request) {
         //saving order
@@ -52,7 +52,11 @@ public class OrderCatalog {
                 request.getRecipientAddress(),
                 OrderState.PROCESSING,
                 new ClientId("1"));
+        applicationEventPublisher.publishEvent(new OrderCreated(request.getOrderId(),newOrder.getOrderedOn()));
+
         newOrder = orderRepository.saveAndFlush(newOrder);
+
+
 
         //saving orderItems
         List<OrderItem> orderItemList = request.getOrderItems()
