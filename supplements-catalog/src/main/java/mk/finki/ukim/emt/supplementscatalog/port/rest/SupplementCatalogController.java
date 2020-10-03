@@ -28,4 +28,9 @@ public class SupplementCatalogController {
         return supplementCatalog.findById(new SupplementId(supplementId)).map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @PatchMapping("/{id}")
+    public void delete(@PathVariable String id) {
+        this.supplementCatalog.delete(new SupplementId(id));
+    }
 }

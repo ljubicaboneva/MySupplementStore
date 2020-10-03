@@ -61,6 +61,13 @@ public class Order extends AbstractEntity<OrderId> {
 
     public Order (){}
 
+    public Order(Instant now, Currency currency, RecipientAddress toDomainModel) {
+        this.orderedOn = now;
+        this.currency = currency;
+        this.billingAddress = toDomainModel;
+
+    }
+
     @Override
     public OrderId id() {
         return id;

@@ -5,6 +5,7 @@ import mk.finki.ukim.emt.supplementscatalog.domain.model.Supplement;
 import mk.finki.ukim.emt.supplementscatalog.domain.model.SupplementId;
 import mk.finki.ukim.emt.supplementscatalog.domain.repository.SupplementRepository;
 import mk.finki.ukim.emt.supplementscatalog.integration.OrderItemAddedEvent;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionPhase;
@@ -21,8 +22,11 @@ public class SupplementCatalog {
 
     private final SupplementRepository supplementRepository;
 
-    public SupplementCatalog(SupplementRepository supplementRepository) {
+    private final ApplicationEventPublisher applicationEventPublisher;
+
+    public SupplementCatalog(SupplementRepository supplementRepository, ApplicationEventPublisher applicationEventPublisher) {
         this.supplementRepository = supplementRepository;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
     
     public List<Supplement> findAll(){
@@ -38,6 +42,12 @@ public class SupplementCatalog {
     public void onOrderItemAdded(OrderItemAddedEvent event) {
         Supplement supplement = supplementRepository.findById(event.getSupplementId()).orElseThrow(RuntimeException::new);
         supplement.reduceQuantity(event.getQuantity());
+        supplementRepository.save(supplement);
+    }
+
+    public void delete(SupplementId supplementId) {
+        Supplement supplement = supplementRepository.findById(supplementId).orElseThrow(RuntimeException::new);
+        supplement.setDeleted(true);
         supplementRepository.save(supplement);
     }
 }

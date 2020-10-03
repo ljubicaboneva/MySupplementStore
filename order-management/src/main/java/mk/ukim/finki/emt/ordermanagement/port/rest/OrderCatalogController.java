@@ -29,9 +29,7 @@ public class OrderCatalogController {
 
     @PostMapping
     public Order createNewOrder(@RequestBody OrderCreateRequest request) {
-       // applicationEventPublisher.publishEvent(new OrderCreated(request.getOrderId(),request.getOrderedOn()));
-
-        return orderCatalog.createOrder(request);
+        return orderCatalog.create(request);
     }
 
 }

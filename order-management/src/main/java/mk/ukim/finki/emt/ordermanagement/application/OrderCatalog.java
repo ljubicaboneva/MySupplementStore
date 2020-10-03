@@ -2,6 +2,8 @@ package mk.ukim.finki.emt.ordermanagement.application;
 
 
 
+import mk.ukim.finki.emt.ordermanagement.application.form.OrderForm;
+import mk.ukim.finki.emt.ordermanagement.application.form.RecipientAddressForm;
 import mk.ukim.finki.emt.ordermanagement.domain.event.OrderCreated;
 import mk.ukim.finki.emt.ordermanagement.domain.event.OrderItemAdded;
 import mk.ukim.finki.emt.ordermanagement.domain.model.*;
@@ -9,12 +11,15 @@ import mk.ukim.finki.emt.ordermanagement.domain.repository.OrderItemRepository;
 import mk.ukim.finki.emt.ordermanagement.domain.repository.OrderRepository;
 import mk.ukim.finki.emt.ordermanagement.port.requests.OrderCreateRequest;
 import mk.ukim.finki.emt.sharedkernel.domain.financial.Currency;
+import mk.ukim.finki.emt.sharedkernel.domain.geo.RecipientAddress;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import javax.validation.Validator;
 import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
@@ -31,10 +36,15 @@ public class OrderCatalog {
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
+
+
+
+
     public OrderCatalog(OrderRepository orderRepository, OrderItemRepository orderItemRepository, ApplicationEventPublisher applicationEventPublisher) {
         this.orderRepository = orderRepository;
         this.orderItemRepository = orderItemRepository;
         this.applicationEventPublisher = applicationEventPublisher;
+
     }
 
     @NonNull
@@ -44,7 +54,7 @@ public class OrderCatalog {
     }
 
 
-    public Order createOrder(OrderCreateRequest request) {
+    public Order create(OrderCreateRequest request) {
         //saving order
         Order newOrder = new Order(
                 request.getOrderId(),
@@ -88,5 +98,28 @@ public class OrderCatalog {
         //return new order
         return newOrder;
     }
+
+    public OrderId createOrder(@NonNull OrderForm order) {
+
+
+        var newOrder = orderRepository.saveAndFlush(toDomainModel(order));
+        applicationEventPublisher.publishEvent(new OrderCreated(newOrder.id(),newOrder.getOrderedOn()));
+        newOrder.getItems().forEach(orderItem -> applicationEventPublisher.publishEvent(new OrderItemAdded(newOrder.id(),orderItem.id(),orderItem.getSupplementId(),orderItem.getQuantity(), Instant.now())));
+        return newOrder.id();
+    }
+
+    @NonNull
+    private Order toDomainModel(@NonNull OrderForm orderForm) {
+        var order = new Order(Instant.now(), orderForm.getCurrency(),
+                toDomainModel(orderForm.getBillingAddress()));
+        orderForm.getItems().forEach(item -> order.addItem(item.getSupplement(), item.getQuantity()));
+        return order;
+    }
+
+    @NonNull
+    private RecipientAddress toDomainModel(@NonNull RecipientAddressForm form) {
+        return new RecipientAddress(form.getName(), form.getAddress(),form.getCity(), form.getCountry());
+    }
+
 
 }

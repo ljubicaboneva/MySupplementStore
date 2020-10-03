@@ -27,6 +27,10 @@ public class RecipientAddress extends Address implements ValueObject {
         this.fullName = new FullName();
     }
 
+    public RecipientAddress(FullName fullName){
+        this.fullName = fullName;
+    }
     public RecipientAddress(){}
+
 
 }

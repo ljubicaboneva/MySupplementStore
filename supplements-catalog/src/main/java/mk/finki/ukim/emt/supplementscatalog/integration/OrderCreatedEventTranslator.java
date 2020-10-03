@@ -17,7 +17,7 @@ public class OrderCreatedEventTranslator implements RemoteEventTranslator {
 
     @Override
     public boolean supports(StoredDomainEvent storedDomainEvent) {
-        return storedDomainEvent.domainEventClass().equals("mk.finki.ukim.emt.supplementscatalog.integration.OrderCreatedEvent");
+        return storedDomainEvent.domainEventClass().equals("mk.ukim.finki.emt.ordermanagement.domain.event.OrderCreated");
     }
 
     @Override

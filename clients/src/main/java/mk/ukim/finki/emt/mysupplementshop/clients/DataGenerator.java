@@ -25,7 +25,7 @@ public class DataGenerator {
     public void generateData() {
         if (clientRepository.findAll().size() == 0) {
             var clients = new ArrayList<Client>();
-            clients.add(new Client(new ClientId("1"), Name.valueOf("Ljubica"),new Address("Kata Pockova 82","Strumica","Makedonija"),"ljubicaboneva@gmail.com"));
+            clients.add(new Client(new ClientId("1"), Name.valueOf("Ljubica"),new Address("ul. Pockova","Strumica","Makedonija"),"imeprezime@gmail.com"));
             clientRepository.saveAll(clients);
         }
     }

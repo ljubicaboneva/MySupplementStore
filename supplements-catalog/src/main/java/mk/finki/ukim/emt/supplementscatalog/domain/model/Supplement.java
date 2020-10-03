@@ -88,17 +88,5 @@ public class Supplement extends AbstractEntity<SupplementId> {
         this.quantity = this.quantity.add(increaseValue);
     }
 
-    @Override
-    public String toString() {
-        return "Supplement{" +
-                "version=" + version +
-                ", name=" + name +
-                ", quantity=" + quantity +
-                ", brand=" + brand +
-                ", price=" + price +
-                ", grams=" + grams +
-                ", type=" + type.getName() +
-                ", deleted=" + deleted +
-                '}';
-    }
+
 }

@@ -1,6 +1,7 @@
 package mk.ukim.finki.emt.ordermanagement.domain.model;
 
 import lombok.Getter;
+import mk.finki.ukim.emt.supplementscatalog.domain.model.Type;
 import mk.ukim.finki.emt.sharedkernel.domain.base.AbstractEntity;
 import mk.ukim.finki.emt.sharedkernel.domain.financial.Money;
 import mk.ukim.finki.emt.sharedkernel.domain.measurement.Quantity;
@@ -25,6 +26,9 @@ public class OrderItem extends AbstractEntity<OrderItemId> {
 
     @Column(name = "deleted", nullable = false)
     private boolean deleted = false;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Order order;
 
     public OrderItem() {
 

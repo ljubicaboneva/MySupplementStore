@@ -25,7 +25,6 @@ public class OrderDetailsView extends VerticalLayout implements HasUrlParameter<
 
     public OrderDetailsView(OrderCatalog orderCatalog) {
         this.orderCatalog = orderCatalog;
-
         setSizeFull();
     }
 
